@@ -1,5 +1,6 @@
 import email
 import imaplib
+import smtplib
 import logging
 import time
 
