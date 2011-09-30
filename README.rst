@@ -18,7 +18,7 @@ provides.
 By default, this program will look for a configuration file in 
 ``~/.secret/imaprelay.cfg`` -- it's location should indicate that it needs
 to contain plain-text passwords for IMAP and SMTP servers, and thus the 
-program will exit immediately if the file is group- or world-writable.
+program will exit immediately if the file is group- or world-readable.
 
 The available configuration options are listed below::
     
