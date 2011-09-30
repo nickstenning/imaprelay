@@ -12,6 +12,16 @@ setup(
     url='http://github.com/nickstenning/imaprelay',
     license='MIT',
     version='0.0.1',
+    classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Environment :: Console',
+        'Intended Audience :: End Users/Desktop',
+        'License :: OSI Approved :: MIT License',
+        'Topic :: Communications :: Email',
+        'Topic :: Communications :: Email :: Email Clients (MUA)',
+        'Topic :: Communications :: Email :: Mail Transport Agents',
+        'Topic :: Utilities'
+    ],
     packages=find_packages(),
     install_requires=[],
     entry_points={
