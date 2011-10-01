@@ -1,0 +1,15 @@
+# CHANGELOG
+
+## v0.0.2 - 2011-10-01
+                
+  * Don't crash out on connection errors -- sleep for (10 * interval) 
+    and then try again. Servers go down, shit happens, etc. There's no 
+    need for `imaprelay` to die as well.
+
+  * Better logging
+
+  * More robust connection closing and exception handling
+
+## v0.0.1 - 2011-09-31
+
+  * Initial release

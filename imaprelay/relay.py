@@ -1,6 +1,7 @@
 import email
 import imaplib
 import smtplib
+import socket
 import logging
 import time
 
@@ -24,8 +25,15 @@ class Relay(object):
         self.archive = archive
 
     def relay(self):
-        self.imap = make_imap_connection()
-        self.smtp = make_smtp_connection()
+        try:
+            return self._relay()
+        finally:
+            self._close_connections()
+
+    def _relay(self):
+        if not self._open_connections():
+            log.warn("Aborting relay attempt")
+            return False
 
         data = self._chk(self.imap.list())
         folders = [util.parse_folder_line(line)[2] for line in data]
@@ -52,10 +60,7 @@ class Relay(object):
             self._relay_messages(msg_slice)
             msg_slice = get_next_slice()
 
-        # Close connections
-        self.imap.close()
-        self.imap.logout()
-        self.smtp.quit()
+        return True
 
     def _relay_messages(self, message_ids):
         log.debug("Relaying messages {0}".format(message_ids))
@@ -85,27 +90,45 @@ class Relay(object):
     def loop(self, interval=30):
         try:
             while 1:
-                self.relay()
-                time.sleep(interval)
+                r = self.relay()
+                t = interval if r else interval * 10
+                log.info("Sleeping for %d seconds", t)
+                time.sleep(t)
         except KeyboardInterrupt:
+            log.warn("Caught interrupt, quitting!")
+
+    def _open_connections(self):
+        try:
+            self.imap = make_imap_connection()
+        except socket.error:
+            log.exception("Got IMAP connection error!")
+            return False
+
+        try:
+            self.smtp = make_smtp_connection()
+        except socket.error:
+            log.exception("Got SMTP connection error!")
+            return False
+
+        return True
+
+    def _close_connections(self):
+        log.info('Closing connections')
+
+        try:
+            self.imap.close()
+        except (imaplib.IMAP4.error, AttributeError):
             pass
-        finally:
-            log.info('Closing connections')
 
-            try:
-                self.imap.close()
-            except imaplib.IMAP4.error:
-                pass
+        try:
+            self.imap.logout()
+        except (imaplib.IMAP4.error, AttributeError):
+            pass
 
-            try:
-                self.imap.logout()
-            except (imaplib.IMAP4.error, AttributeError):
-                pass
-
-            try:
-                self.smtp.quit()
-            except smtplib.SMTPServerDisconnected:
-                pass
+        try:
+            self.smtp.quit()
+        except (smtplib.SMTPServerDisconnected, AttributeError):
+            pass
 
     def _chk(self, res):
         typ, data = res
