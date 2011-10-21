@@ -11,7 +11,7 @@ setup(
     author_email='nick@whiteink.com',
     url='http://github.com/nickstenning/imaprelay',
     license='MIT',
-    version='0.0.2',
+    version='0.0.3',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Console',
