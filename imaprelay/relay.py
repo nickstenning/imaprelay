@@ -100,13 +100,13 @@ class Relay(object):
     def _open_connections(self):
         try:
             self.imap = make_imap_connection()
-        except socket.error:
+        except (socket.error, imaplib.IMAP4.abort):
             log.exception("Got IMAP connection error!")
             return False
 
         try:
             self.smtp = make_smtp_connection()
-        except socket.error:
+        except (socket.error, smtplib.SMTPException):
             log.exception("Got SMTP connection error!")
             return False
 
