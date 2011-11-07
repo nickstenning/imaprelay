@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.0.4 - 2011-11-07
+
+  * Catch yet more connection errors
+
+## v0.0.3 - 2011-10-21
+
+  * Catch more connection errors and recover
+  
 ## v0.0.2 - 2011-10-01
                 
   * Don't crash out on connection errors -- sleep for (10 * interval) 
