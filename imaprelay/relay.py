@@ -44,7 +44,7 @@ class Relay(object):
         if self.archive not in folders:
             raise RelayError('No "{0}" folder found! Where should I archive messages to?'.format(self.archive))
 
-        data = self._chk(self.imap.select(self.inbox, readonly=True))
+        data = self._chk(self.imap.select(self.inbox))
 
         log.info('Relaying {num} messages from {inbox}'.format(num=data[0], inbox=self.inbox))
 
