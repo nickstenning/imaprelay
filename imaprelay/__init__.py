@@ -5,7 +5,7 @@ logging.basicConfig(format='%(asctime)-15s  %(levelname)-8s  %(message)s',
 
 log = logging.getLogger(__name__)
 
-__version__ = '0.0.4'
+__version__ = '0.0.5'
 
 __all__ = ['Relay']
 

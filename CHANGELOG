@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.5 - 2011-11-21
+
+  * Don't attempt to manipulate INBOX with readonly flag set. 
+    Remarkably (?), Exchange IMAP didn't respect said flag until
+    recently...
+
 ## v0.0.4 - 2011-11-07
 
   * Catch yet more connection errors
